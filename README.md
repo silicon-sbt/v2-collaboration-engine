@@ -76,3 +76,9 @@ python -m collab cost <run_id> --db logs/collab_runs.db
 ## 许可
 
 MIT License（见 `LICENSE`）。
+
+## 致谢
+
+- 感谢 **上游 [`agent_roundtable`](https://github.com/Random-Walk2026/agent_roundtable)（Random-Walk2026）**：多 Agent 圆桌与协作审计的思路，是本引擎的重要起点。
+- 感谢 **ClaimCheck（CatNebulaaaa）**：用于本项目的开源完整性核查，帮我们确认实现真实、避免伪开源。
+- 感谢 **使用者的实测反馈**（单页 HTML 交付复盘）：推动轻量模式、交付物前置与独立裁决等改进落地。
