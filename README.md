@@ -99,6 +99,10 @@ python -m collab cost <run_id> --db logs/collab_runs.db
 - **记忆诚实化**：无命中时 `MemoryStore.search` 返回 `[]`，`build_memory_context([])` 为空串 → **不注入**；命中片段带真实 score 与来源，不插值填充。
 - **成本**：未知 provider 标 `estimated`；记忆成本是 prompt 成本的子集拆分，不重复累加。
 
+## 贡献
+
+想参与？见 [CONTRIBUTING.md](CONTRIBUTING.md)。提交 bug / 需求 / PR 都欢迎。
+
 ## 许可
 
 MIT License（见 `LICENSE`）。
