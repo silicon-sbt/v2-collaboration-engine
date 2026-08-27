@@ -1,6 +1,6 @@
 # v2-collaboration-engine
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)  [![CI](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)  [![CI](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml)  [![codecov](https://codecov.io/gh/silicon-sbt/v2-collaboration-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/silicon-sbt/v2-collaboration-engine)
 
 一个把「多 Agent 协作的**责任、成本、可审计性**」落成可验证工程的**工作流运行器**。
 

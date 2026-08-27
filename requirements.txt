@@ -1,3 +1,4 @@
 langgraph
 requests
 pytest
+pytest-cov
