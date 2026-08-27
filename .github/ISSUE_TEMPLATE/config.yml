@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discussion / 提问
+    url: https://github.com/silicon-sbt/v2-collaboration-engine/discussions
+    about: 先来这里讨论或提问
