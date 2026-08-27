@@ -2,9 +2,35 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)  [![CI](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml)
 
-独立的弱去中心化多 Agent 协作引擎（多 Agent 工作流运行器 / CLI）。
+一个把「多 Agent 协作的**责任、成本、可审计性**」落成可验证工程的**工作流运行器**。
 
-> 本引擎是一个**声明式、可审计的多 Agent 工作流运行器**：用 `python -m collab` 提交任务、观察状态，并拿到带成本/损耗/恢复率的报告。
+> 多 Agent 不是免费午餐：每个协作任务都多付一份**协调费**（经理/仲裁/审计/横向）。
+
+> 如果它没省下更多冗余 token，就是「更贵且更差」。本引擎用 **成本/损耗/恢复率 + 审计硬规则 + 记忆 provenance** 把这笔账算清楚、可回查。
+
+## 和同类「编排」框架的定位差异
+
+| | 本引擎 | LangGraph | AutoGen | CrewAI | MetaGPT |
+| --- | --- | --- | --- | --- | --- |
+| 主打 | 协作责任 / 成本 / 审计 | 图状态机编排 | 多 Agent 对话 | 角色 crew | 需求→代码流水线 |
+| 特色 | 按 persona 归集成本、损耗 USD/token、恢复率、审计硬规则、记忆 provenance | 状态编译/可恢复 | 对话式协作 | 低代码 crew | 角色分工 |
+
+## 真实跑一次
+
+```text
+# 协作执行报告
+- 任务数: 2
+- Token 总消耗: 0
+- 模式: wave
+- 记忆开销(USD): $0.0000（132 token，占总成本 0.000）
+## 任务结果
+### t1（computing）— done
+- 任务结论: （mock）已生成。
+### t2（history）— done
+- 任务结论: （mock）已生成。
+```
+
+（上面是 `python -m collab run tasks.json --mock` 的真实输出截取——波次调度、按任务出结果、记忆 token/成本、分层裁决的报告都在。）
 
 ## 特性
 
