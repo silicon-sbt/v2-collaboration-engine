@@ -1,0 +1,22 @@
+name: collab-ci
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch: {}
+  push:
+    branches: [master]
+
+jobs:
+  test:
+    name: collab tests (incl CLI)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run collab tests (CLI included)
+        run: python -m pytest tests/ -q

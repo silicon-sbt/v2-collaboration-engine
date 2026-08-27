@@ -1,5 +1,7 @@
 # v2-collaboration-engine
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)  [![CI](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/silicon-sbt/v2-collaboration-engine/actions/workflows/ci.yml)
+
 独立的弱去中心化多 Agent 协作引擎（多 Agent 工作流运行器 / CLI）。
 
 > 本引擎是一个**声明式、可审计的多 Agent 工作流运行器**：用 `python -m collab` 提交任务、观察状态，并拿到带成本/损耗/恢复率的报告。
