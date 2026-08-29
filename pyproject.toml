@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "v2-collaboration-engine"
+version = "0.1.0"
+description = "V2 弱去中心化多 Agent 协作引擎（公司模式）——受控 token 办更多事，跨 persona 协作 + 审计/仲裁/记忆/成本闭环。"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "silicon-sbt", email = "2632530353@qq.com" }]
+keywords = ["multi-agent", "collaboration", "langgraph", "llm", "agent", "workflow"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "langgraph",
+  "requests",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov"]
+
+[project.urls]
+Homepage = "https://github.com/silicon-sbt/v2-collaboration-engine"
+Repository = "https://github.com/silicon-sbt/v2-collaboration-engine"
+Documentation = "https://github.com/silicon-sbt/v2-collaboration-engine#readme"
+
+[project.scripts]
+collab = "collab.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["collab*"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

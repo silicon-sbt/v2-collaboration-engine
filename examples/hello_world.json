@@ -1,0 +1,14 @@
+[
+  {
+    "id": "t1",
+    "persona_id": "computing",
+    "input": "列出符号计算的优势与短板",
+    "expected_output": "判断"
+  },
+  {
+    "id": "t2",
+    "persona_id": "history",
+    "input": "从计算机史评价符号计算工具的演变",
+    "expected_output": "结论"
+  }
+]

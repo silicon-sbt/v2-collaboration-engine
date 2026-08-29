@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -30,13 +31,47 @@ from .runner import get_collab_status, list_collab_runs, run_collaboration, stop
 from .runstore import RunStore
 
 
-def _repo_root() -> Path:
-    return Path(__file__).resolve().parent.parent
+def _data_dir() -> Path:
+    """Writable per-user data dir for persistent stores (pip-install friendly).
+
+    Override with COLLAB_HOME; defaults to ~/.collab so a pip-installed
+    package never tries to write into site-packages.
+    """
+    env_home = os.getenv("COLLAB_HOME", "").strip()
+    base = Path(env_home) if env_home else Path.home() / ".collab"
+    base.mkdir(parents=True, exist_ok=True)
+    return base
 
 
-DEFAULT_DB_PATH = _repo_root() / "logs" / "collab_runs.db"
-DEFAULT_MEMORY_DB_PATH = _repo_root() / "logs" / "collab_memory.db"
-DEFAULT_MOTION_DB_PATH = _repo_root() / "logs" / "collab_motions.db"
+DEFAULT_DB_PATH = _data_dir() / "logs" / "collab_runs.db"
+DEFAULT_MEMORY_DB_PATH = _data_dir() / "logs" / "collab_memory.db"
+DEFAULT_MOTION_DB_PATH = _data_dir() / "logs" / "collab_motions.db"
+
+DEMO_TASKS: list[dict[str, Any]] = [
+    {
+        "id": "a-research",
+        "persona_id": "investing",
+        "input": "调研：列出市场风险的主要类别",
+        "expected_output": "风险清单",
+        "allowed_links": ["b-check"],
+    },
+    {
+        "id": "b-check",
+        "persona_id": "macroeconomics",
+        "input": "基于 a-research 的风险清单，评估宏观应对",
+        "expected_output": "宏观应对建议",
+        "data_deps": ["a-research"],
+        "allowed_links": ["a-research", "c-summary"],
+    },
+    {
+        "id": "c-summary",
+        "persona_id": "history",
+        "input": "综合 a-research 与 b-check 的观点，给出历史启示",
+        "expected_output": "总结",
+        "data_deps": ["a-research", "b-check"],
+        "allowed_links": ["b-check"],
+    },
+]
 
 
 def _store(db: str = "") -> RunStore:
@@ -111,6 +146,64 @@ def cmd_run(args: argparse.Namespace) -> int:
         print("\n--- final_report ---\n" + str(status.get("final_report")))
     return 0
 
+
+def cmd_demo(args: argparse.Namespace) -> int:
+    """Zero-config showcase: run the built-in cross-referencing scenario.
+
+    Defaults to provider auto so a configured key gives real reasoning and a
+    missing key gracefully falls back to the free deterministic mock - no
+    tasks.json or API key required. Use --provider deepseek for real reasoning,
+    --mock to force the offline demo, or --tasks to run your own scenario.
+    """
+    tasks = DEMO_TASKS
+    if getattr(args, "tasks", ""):
+        tasks = _load_tasks(args.tasks)
+    store = _store(getattr(args, "db", "") or "")
+    memory_store = _mem_store(getattr(args, "memory_db", "") or "")
+    audit_llm = None
+    if getattr(args, "audit_model", None):
+        audit_llm = resolve_llm(
+            getattr(args, "audit_provider", "") or args.provider,
+            model=args.audit_model,
+            root_dir=args.root_dir or None,
+        )
+    provider = args.provider or "auto"
+    print("collab 弱去中心化协作引擎 · 快速体验")
+    print("-" * 64)
+    print("模式: " + args.mode + ("（轻量：跳过经理裁决）" if args.light else ""))
+    print("provider: " + provider + "（auto：有 key 用真实模型，无 key 回退 mock）")
+    print("任务数: " + str(len(tasks)) + "，跨 persona 协作（产出 → 引用 → 汇总）")
+    print("-" * 64)
+    run_id = run_collaboration(
+        tasks,
+        provider=provider,
+        mock=args.mock,
+        mode=args.mode,
+        root_dir=args.root_dir or None,
+        run_store=store,
+        memory_store=memory_store,
+        audit_llm=audit_llm,
+        light=args.light,
+    )
+    status: dict[str, Any] = {}
+    deadline = time.time() + args.timeout
+    while time.time() < deadline:
+        status = get_collab_status(run_id, run_store=store)
+        if status.get("status") != "running":
+            break
+        time.sleep(0.5)
+    if status.get("status") == "not_found":
+        print("error: run not found", file=sys.stderr)
+        return 1
+    if status.get("status") == "running":
+        stop_collab(run_id, reason="cli timeout")
+        print("warning: run did not finish within --timeout", file=sys.stderr)
+        return 1
+    print("run_id: " + run_id + " · status: " + status.get("status"))
+    report = status.get("final_report") or status.get("error") or ""
+    print("\n--- final_report ---")
+    print(report)
+    return 0
 
 def cmd_status(args: argparse.Namespace) -> int:
     _print_json(get_collab_status(args.run_id, run_store=_store(getattr(args, "db", "") or "")))
@@ -239,6 +332,20 @@ def main(argv: list[str] | None = None) -> int:
     p_run.add_argument("--audit-model", default="", help="auditor/manager 使用的模型（与执行模型不同，增强独立裁决）")
     p_run.add_argument("--audit-provider", default="", help="auditor 使用的 provider（默认同 --provider）")
     p_run.set_defaults(fn=cmd_run)
+
+    p_demo = sub.add_parser("demo", help="零配置快速体验：内置跨 persona 场景，无需 tasks.json / API key")
+    p_demo.add_argument("--tasks", default="", help="(可选) 用你自己的 tasks JSON 文件替换内置场景")
+    p_demo.add_argument("--provider", default="auto")
+    p_demo.add_argument("--mock", action="store_true", help="强制离线 mock（无 key 也可跑）")
+    p_demo.add_argument("--mode", default="wave", choices=["wave", "parallel"])
+    p_demo.add_argument("--light", action="store_true", help="轻量模式：跳过经理裁决")
+    p_demo.add_argument("--audit-model", default="")
+    p_demo.add_argument("--audit-provider", default="")
+    p_demo.add_argument("--root-dir", default="")
+    p_demo.add_argument("--timeout", type=float, default=120.0)
+    p_demo.add_argument("--db", default="", help="RunStore db path")
+    p_demo.add_argument("--memory-db", default="", help="MemoryStore db path")
+    p_demo.set_defaults(fn=cmd_demo)
 
     p_status = sub.add_parser("status", help="print status of a run")
     p_status.add_argument("run_id")

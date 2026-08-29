@@ -65,6 +65,7 @@ class CollabState(TypedDict, total=False):
     experimental: bool            # T14: parallel is experimental
     parallel_note: str            # T14: why parallel fell back to wave
     final_report: str
+    run_path: str                  # path label: "MOCK" | "REAL:<provider>"
 
 
 def resolve_mode(tasks: list[dict[str, Any]], mode: str = "wave") -> tuple[str, bool, str]:
@@ -672,6 +673,7 @@ def _collect_node(state: CollabState) -> dict[str, Any]:
         mode=state.get("mode", "wave"),
         experimental=state.get("experimental", False),
         parallel_note=state.get("parallel_note", ""),
+        run_path=state.get("run_path", "UNKNOWN"),
     )
     if discrepancies:
         report += "\n\n## BLOCKED 复核异常\n- " + "\n- ".join(discrepancies)
@@ -687,10 +689,15 @@ def _build_collab_report(
     mode: str = "wave",
     experimental: bool = False,
     parallel_note: str = "",
+    run_path: str = "UNKNOWN",
 ) -> str:
     """Summarise the run: per-task status, audited output, citations, totals."""
     lines = ["# 协作执行报告", "", "- 任务数: %d" % len(tasks), "- Token 总消耗: %d" % token_total]
     lines.append("- 模式: " + mode + ("（experimental）" if experimental else ""))
+    if run_path == "MOCK":
+        lines.append("- 运行路径: MOCK（确定性占位输出，不代表真实模型判断）")
+    else:
+        lines.append("- 运行路径: " + run_path)
     if parallel_note:
         lines.append("- 说明: " + parallel_note)
     cost = cost_summary(list(results.values()))
@@ -820,6 +827,8 @@ def run_collab_sync(
     task_dicts = [task.to_dict() for task in tasks]
     eff_mode, experimental, parallel_note = resolve_mode(task_dicts, mode)
     llm = resolve_llm("mock" if mock else provider, root_dir=root_dir)
+    llm_provider = getattr(llm, "provider_name", "") or ""
+    run_path = "MOCK" if llm_provider == "mock" else ("REAL:" + llm_provider if llm_provider else "UNKNOWN")
     app = build_collab_graph(llm, root_dir=root_dir, memory_store=memory_store, audit_llm=audit_llm, light=light)
     initial: CollabState = {
         "tasks": task_dicts,
@@ -831,6 +840,7 @@ def run_collab_sync(
         "mode": eff_mode,
         "experimental": experimental,
         "parallel_note": parallel_note,
+        "run_path": run_path,
     }
     return app.invoke(initial)
 

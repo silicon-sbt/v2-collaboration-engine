@@ -44,15 +44,69 @@
 ## 快速开始
 
 ```bash
+# 从源码跑（或 `pip install .` 后直接用 install 出来的 `collab` 命令）
 git clone https://github.com/silicon-sbt/v2-collaboration-engine.git
 cd v2-collaboration-engine
 pip install -r requirements.txt
-python -m collab run tasks.json --provider auto --db logs/collab_runs.db
-python -m collab report <run_id> --db logs/collab_runs.db
-python -m collab cost <run_id> --db logs/collab_runs.db
 ```
 
-`tasks.json` 是任务数组，每项至少含 `id`、`persona_id`、`input`：
+### 零配置体验（不用 API key）
+
+```bash
+python -m collab demo --mock
+```
+
+跑内置的 3 个跨 persona 任务（产出 → 引用 → 汇总），全程用确定性 mock，离线可用，立刻看到「波次执行 → 审计 → 裁决 → 记忆 → 成本闭环」的报告：
+
+```text
+collab 弱去中心化协作引擎 · 快速体验
+----------------------------------------------------------------
+模式: wave
+provider: auto（auto：有 key 用真实模型，无 key 回退 mock）
+任务数: 3，跨 persona 协作（产出 → 引用 → 汇总）
+----------------------------------------------------------------
+run_id: 50fc2259319c · status: done
+
+--- final_report ---
+# 协作执行报告
+
+- 任务数: 3
+- Token 总消耗: 0
+- 模式: wave
+
+## 任务结果
+
+### a-research（investing）— done
+- 引用输入快照: N/A
+- 关键决策点: 1) 风险清单
+- 任务结论: （mock）已生成。这是确定性占位输出，不代表真实模型判断。
+
+### b-check（macroeconomics）— done
+- 引用输入快照: a-research
+- 关键决策点: 1) 宏观应对建议
+- 任务结论: （mock）已生成。这是确定性占位输出，不代表真实模型判断。
+
+### c-summary（history）— done
+- 引用输入快照: a-research、b-check
+- 关键决策点: 1) 总结
+- 任务结论: （mock）已生成。这是确定性占位输出，不代表真实模型判断。
+```
+
+> `--mock` 是确定性占位输出，用于看管线怎么跑；要真实推理，配置 `.env` 的 key 后去掉 `--mock`。
+
+![collab demo 报告](assets/demo-report.png)
+
+### 用真实模型跑
+
+配置 `.env`（如 `DEEPSEEK_API_KEY=...`）或导出环境变量后：
+
+```bash
+python -m collab run examples/three_agents.json --provider deepseek --report
+python -m collab report <run_id>
+python -m collab cost <run_id>
+```
+
+`tasks.json`（或 `examples/` 里的样例）是任务数组，每项至少含 `id`、`persona_id`、`input`：
 
 ```json
 [{"id":"t1","persona_id":"computing","input":"评估成本与收益","expected_output":"给出方案"}]
@@ -62,6 +116,7 @@ python -m collab cost <run_id> --db logs/collab_runs.db
 
 | 命令 | 说明 |
 | --- | --- |
+| `collab demo [--mock] [--provider auto] [--tasks FILE] [--light]` | 零配置快速体验：内置 3 个跨 persona 任务，无需 tasks.json / API key |
 | `collab run <tasks> [--provider auto|mock] [--mode wave|parallel] [--light] [--audit-model M] [--audit-provider P] [--db PATH] [--memory-db PATH]` | 提交并阻塞到终态；`--light` 轻量、`--audit-*` 独立裁决 |
 | `collab status/report/cost/list/stop <run_id> [--db PATH]` | 状态 / 报告 / 成本 / 列表 / 软停止 |
 | `collab memory search|list|stale <agent_id> [--db PATH]` | 记忆检索 / 列表 / 过期（支持 `--min-score`/`--candidate-limit`） |
@@ -69,7 +124,7 @@ python -m collab cost <run_id> --db logs/collab_runs.db
 
 ## 可靠性
 
-- **测试**：18 个 collab 测试 + 对抗性核验（制造错误→系统揭出/修正）。
+- **测试**：161 个用例（含 demo/CLI/记忆/动议/恢复）+ 对抗性核验（制造错误→系统揭出/修正）。
 - **覆盖率约 91%**，CI 每天定时 + push，跑 **Python 3.10 / 3.11 / 3.12** 三种版本。
 - **自包含**：除标准库外仅依赖 `langgraph`、`requests`，不依赖其他内部模块。
 
@@ -88,6 +143,12 @@ python -m collab cost <run_id> --db logs/collab_runs.db
 - `collab/runstore.py` `collab/runner.py`：持久化 + 崩溃恢复 + 心跳。
 - `collab/cli.py`：`python -m collab` 工作流 CLI。
 - `collab/tokenize.py` `persona.py` `llm.py`：自包含 tokenizer / persona 提示 / LLM client。
+
+## 架构图 / 流程图
+
+![V2 架构图](assets/v2-architecture-cn.png)
+
+![V2 执行流程图](assets/v2-flow-cn.png)
 
 ## 贡献
 

@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#f5f5f5;font-family:Segoe UI,system-ui,-apple-system,sans-serif}
+svg{display:block}
+.rect{fill:#ececec;stroke:#bfc0c0;stroke-width:1.2}
+.diam{fill:rgba(235,108,54,0.10);stroke:#eb6c36;stroke-width:1.4}
+.oval{fill:#ececec;stroke:#bfc0c0;stroke-width:1.2}
+.t{fill:#2d3142;font-size:12px;font-weight:600}
+.s{fill:#7a8399;font-size:9px;font-family:Consolas,'Courier New',monospace}
+.eb{fill:#4f5d75;font-size:8px;letter-spacing:0.18em;font-weight:500;text-transform:uppercase;font-family:Consolas,'Courier New',monospace}
+.arrow{stroke:#4f5d75;stroke-width:1.2;fill:none}
+.al{fill:#7a8399;font-size:9px;font-family:Consolas,'Courier New',monospace}
+.arrowhead{fill:#4f5d75}
+</style></head><body>
+<svg width="960" height="600" viewBox="0 0 960 600">
+  <defs><marker id="af" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" class="arrowhead"/></marker></defs>
+
+  <text x="28" y="30" class="eb">Flow · V2</text>
+  <text x="28" y="56" class="t" style="font-size:17px">V2 Execution Flow</text>
+  <text x="28" y="73" class="s">run: wave → execute → audit → arbitrate → memory/cross-ref → cost → report</text>
+
+  <g class="arrow" marker-end="url(#af)">
+    <path d="M340,94 V116"/>
+    <path d="M340,154 V176"/>
+    <path d="M340,214 V236"/>
+    <path d="M340,286 V286"/>
+    <path d="M470,348 H540 V219 H640"/>
+    <path d="M740,238 V260"/>
+    <path d="M740,298 V320"/>
+    <path d="M740,358 V368"/>
+    <path d="M340,410 V440 H260 V470"/>
+    <path d="M360,489 H120 V195 H240"/>
+  </g>
+
+  <ellipse class="oval" cx="340" cy="64" rx="92" ry="30"/>
+  <text x="298" y="69" class="t">collab run</text>
+  <rect class="rect" x="240" y="116" width="200" height="38" rx="6"/>
+  <text x="262" y="140" class="t">load tasks / wave</text>
+  <rect class="rect" x="240" y="176" width="200" height="38" rx="6"/>
+  <text x="250" y="200" class="t">execute task (persona)</text>
+  <rect class="rect" x="240" y="236" width="200" height="38" rx="6"/>
+  <text x="276" y="260" class="t">L2 audit</text>
+  <polygon class="diam" points="340,410 210,348 340,286 470,348"/>
+  <text x="298" y="352" class="t" style="fill:#b34d1f">arbitrate pass?</text>
+
+  <rect class="rect" x="640" y="200" width="200" height="38" rx="6"/>
+  <text x="650" y="224" class="t">write memory + cross-ref</text>
+  <rect class="rect" x="640" y="260" width="200" height="38" rx="6"/>
+  <text x="666" y="284" class="t">next wave / done</text>
+  <rect class="rect" x="640" y="320" width="200" height="38" rx="6"/>
+  <text x="656" y="344" class="t">cost / waste accounting</text>
+  <ellipse class="oval" cx="740" cy="398" rx="92" ry="30"/>
+  <text x="688" y="403" class="t">report + RunStore</text>
+
+  <rect class="rect" x="160" y="470" width="200" height="38" rx="6"/>
+  <text x="182" y="494" class="t">reject → retry (cap)</text>
+
+  <text x="556" y="290" class="al">yes</text>
+  <text x="352" y="428" class="al">no</text>
+
+</svg>
+</body></html>

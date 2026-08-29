@@ -1,0 +1,25 @@
+[
+  {
+    "id": "a-research",
+    "persona_id": "investing",
+    "input": "调研：列出市场风险的主要类别",
+    "expected_output": "风险清单",
+    "allowed_links": ["b-check"]
+  },
+  {
+    "id": "b-check",
+    "persona_id": "macroeconomics",
+    "input": "基于 a-research 的风险清单，评估宏观应对",
+    "expected_output": "宏观应对建议",
+    "data_deps": ["a-research"],
+    "allowed_links": ["a-research", "c-summary"]
+  },
+  {
+    "id": "c-summary",
+    "persona_id": "history",
+    "input": "综合 a-research 与 b-check 的观点，给出历史启示",
+    "expected_output": "总结",
+    "data_deps": ["a-research", "b-check"],
+    "allowed_links": ["b-check"]
+  }
+]

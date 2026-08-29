@@ -39,6 +39,12 @@ Frameworks like LangGraph, AutoGen, CrewAI and MetaGPT focus on **how to orchest
 
 We focus on **whether the collaboration is worth it and can be held accountable** — cost, waste, audit and provenance as verifiable engineering.
 
+## Architecture & Flow
+
+![V2 architecture](assets/v2-architecture.png)
+
+![V2 execution flow](assets/v2-flow.png)
+
 ## Quick start
 
 ```bash
