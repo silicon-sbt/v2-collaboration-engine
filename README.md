@@ -43,11 +43,20 @@
 
 ## 快速开始
 
+### 一键安装（PyPI）
+
 ```bash
-# 从源码跑（或 `pip install .` 后直接用 install 出来的 `collab` 命令）
+pip install v2-collaboration-engine
+collab demo --mock
+```
+
+### 从源码跑
+
+```bash
 git clone https://github.com/silicon-sbt/v2-collaboration-engine.git
 cd v2-collaboration-engine
 pip install -r requirements.txt
+python -m collab demo --mock
 ```
 
 ### 零配置体验（不用 API key）
@@ -94,7 +103,7 @@ run_id: 50fc2259319c · status: done
 
 > `--mock` 是确定性占位输出，用于看管线怎么跑；要真实推理，配置 `.env` 的 key 后去掉 `--mock`。
 
-![collab demo 报告](assets/demo-report.png)
+![collab demo 报告](https://raw.githubusercontent.com/silicon-sbt/v2-collaboration-engine/master/assets/demo-report.png)
 
 ### 用真实模型跑
 
@@ -146,9 +155,9 @@ python -m collab cost <run_id>
 
 ## 架构图 / 流程图
 
-![V2 架构图](assets/v2-architecture-cn.png)
+![V2 架构图](https://raw.githubusercontent.com/silicon-sbt/v2-collaboration-engine/master/assets/v2-architecture-cn.png)
 
-![V2 执行流程图](assets/v2-flow-cn.png)
+![V2 执行流程图](https://raw.githubusercontent.com/silicon-sbt/v2-collaboration-engine/master/assets/v2-flow-cn.png)
 
 ## 贡献
 

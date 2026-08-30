@@ -41,18 +41,27 @@ We focus on **whether the collaboration is worth it and can be held accountable*
 
 ## Architecture & Flow
 
-![V2 architecture](assets/v2-architecture.png)
+![V2 architecture](https://raw.githubusercontent.com/silicon-sbt/v2-collaboration-engine/master/assets/v2-architecture.png)
 
-![V2 execution flow](assets/v2-flow.png)
+![V2 execution flow](https://raw.githubusercontent.com/silicon-sbt/v2-collaboration-engine/master/assets/v2-flow.png)
 
 ## Quick start
+
+### Install from PyPI
+
+```bash
+pip install v2-collaboration-engine
+collab demo --mock
+```
+
+### From source
 
 ```bash
 git clone https://github.com/silicon-sbt/v2-collaboration-engine.git
 cd v2-collaboration-engine
 pip install -r requirements.txt
-python -m collab run tasks.json --provider auto --db logs/collab_runs.db
-python -m collab report <run_id> --db logs/collab_runs.db
+python -m collab run tasks.json --provider auto
+python -m collab report <run_id>
 ```
 
 `tasks.json` is a JSON array, each item needs at least `id`, `persona_id`, `input`:
