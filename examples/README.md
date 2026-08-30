@@ -23,6 +23,14 @@ python -m collab run examples/hello_world.json --mock --report
 python -m collab run examples/three_agents.json --mock --report
 ```
 
+## 用 Python API 跑（编程方式）
+
+```bash
+python examples/basic_usage.py
+```
+
+直接用 `run_collaboration` 在 Python 里跑（默认 mock，离线），打印 run_id + 报告。
+
 ## 用真实模型跑
 
 配置好 `.env`（例如 `DEEPSEEK_API_KEY=...`）或导出环境变量后，去掉 `--mock`：
