@@ -29,6 +29,7 @@ from .memory import MemoryStore
 from .motion import CollabMotion, MotionStatus, MotionStore
 from .runner import get_collab_status, list_collab_runs, run_collaboration, stop_collab
 from .runstore import RunStore
+from . import __version__
 
 
 def _data_dir() -> Path:
@@ -315,7 +316,12 @@ def cmd_motion_list(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="collab", description="collab workflow runner (company mode / 模式 B)")
+    parser = argparse.ArgumentParser(
+        prog="collab",
+        description="collab workflow runner (company mode / 模式 B)",
+        epilog="查看子命令帮助：collab <cmd> --help。",
+    )
+    parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_run = sub.add_parser("run", help="submit a company collaboration from a tasks JSON file")
