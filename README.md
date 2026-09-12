@@ -159,6 +159,10 @@ python -m collab cost <run_id>
 
 ![V2 执行流程图](https://raw.githubusercontent.com/silicon-sbt/v2-collaboration-engine/master/assets/v2-flow-cn.png)
 
+## 相关项目
+
+- [`agent-roundtable-mcp`](https://github.com/silicon-sbt/agent-roundtable-mcp)：**入口 A · 会议** —— 圆桌 MCP 服务（专家/角色圆桌、RAG 语料、Markdown 报告），可被 DSH / Claude Code / Cursor 直接调用。本仓库聚焦 **入口 B · 公司**（协作工作流引擎）。
+
 ## 贡献
 
 想参与？见 [CONTRIBUTING.md](CONTRIBUTING.md)。提交 bug / 需求 / PR 都欢迎。

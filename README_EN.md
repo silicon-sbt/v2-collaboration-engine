@@ -72,9 +72,13 @@ python -m collab report <run_id>
 
 ## Reliability
 
-- 18 collab tests incl. adversarial verification (inject an error → the system exposes & corrects it).
+- 164 tests incl. adversarial verification (inject an error → the system exposes & corrects it).
 - ~91% coverage; CI runs on **Python 3.10 / 3.11 / 3.12** daily + on push.
 - Self-contained: only `langgraph` + `requests` + stdlib, no other internal modules.
+
+## See also
+
+- [`agent-roundtable-mcp`](https://github.com/silicon-sbt/agent-roundtable-mcp): **Entry A · Meeting** — the roundtable MCP server (expert/persona panels, RAG corpora, Markdown reports) callable from DSH / Claude Code / Cursor. This repo focuses on **Entry B · Company** (the collaboration workflow engine).
 
 ## License
 
