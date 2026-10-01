@@ -43,12 +43,20 @@
 
 ## 快速开始
 
-### 一键安装（PyPI）
+### 安装（GitHub 直装；PyPI 尚未发布）
 
 ```bash
-pip install v2-collaboration-engine
+pip install "git+https://github.com/silicon-sbt/v2-collaboration-engine.git"
 collab demo --mock
 ```
+
+也可以直接装 [Releases](https://github.com/silicon-sbt/v2-collaboration-engine/releases) 里的 wheel：
+
+```bash
+pip install v2_collaboration_engine-0.1.0-py3-none-any.whl
+```
+
+> 说明：本包**尚未发布到 PyPI**（`pip install v2-collaboration-engine` 现在还装不到）。发布后本节会改回一行 PyPI 安装。
 
 ### 从源码跑
 
@@ -133,8 +141,9 @@ python -m collab cost <run_id>
 
 ## 可靠性
 
-- **测试**：161 个用例（含 demo/CLI/记忆/动议/恢复）+ 对抗性核验（制造错误→系统揭出/修正）。
-- **覆盖率约 91%**，CI 每天定时 + push，跑 **Python 3.10 / 3.11 / 3.12** 三种版本。
+- **测试**：164 个用例（含 demo/CLI/记忆/动议/恢复）+ 对抗性核验（制造错误→系统揭出/修正）。
+- **覆盖率约 91%**，CI 每天定时 + push，跑 **Python 3.10 / 3.11 / 3.12** 三种版本；另有打包冒烟作业（build → twine check → 干净环境装 wheel 跑 `collab demo`）。
+- **A/B 实测**：与圆桌基线（入口 A）的成本/质量对比证据，含已测出的成本口径缺口：[`benchmarks/AB_V1_VS_V2.md`](benchmarks/AB_V1_VS_V2.md)。
 - **自包含**：除标准库外仅依赖 `langgraph`、`requests`，不依赖其他内部模块。
 
 ## 口径说明

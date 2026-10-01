@@ -47,12 +47,21 @@ We focus on **whether the collaboration is worth it and can be held accountable*
 
 ## Quick start
 
-### Install from PyPI
+### Install (from GitHub; not on PyPI yet)
 
 ```bash
-pip install v2-collaboration-engine
+pip install "git+https://github.com/silicon-sbt/v2-collaboration-engine.git"
 collab demo --mock
 ```
+
+Or install the wheel attached to [Releases](https://github.com/silicon-sbt/v2-collaboration-engine/releases):
+
+```bash
+pip install v2_collaboration_engine-0.1.0-py3-none-any.whl
+```
+
+> **This package is not published to PyPI yet** — `pip install v2-collaboration-engine` does not
+> resolve today; this section goes back to that one-liner once it does.
 
 ### From source
 
@@ -73,7 +82,10 @@ python -m collab report <run_id>
 ## Reliability
 
 - 164 tests incl. adversarial verification (inject an error → the system exposes & corrects it).
-- ~91% coverage; CI runs on **Python 3.10 / 3.11 / 3.12** daily + on push.
+- ~91% coverage; CI runs on **Python 3.10 / 3.11 / 3.12** daily + on push, plus a packaging
+  smoke job (build → twine check → install the wheel in a clean venv → run `collab demo`).
+- **A/B evidence** against the roundtable baseline (cost/quality, incl. a measured cost-accounting
+  gap): [`benchmarks/AB_V1_VS_V2.md`](benchmarks/AB_V1_VS_V2.md).
 - Self-contained: only `langgraph` + `requests` + stdlib, no other internal modules.
 
 ## See also

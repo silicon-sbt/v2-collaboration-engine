@@ -4,6 +4,7 @@ __pycache__/
 .env
 .pytest_cache/
 logs/
+benchmarks/runs/
 .audit-cache/
 .DS_Store
 build/

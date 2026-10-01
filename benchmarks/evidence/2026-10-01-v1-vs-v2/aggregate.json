@@ -1,0 +1,45 @@
+{
+ "repeats": 3,
+ "cost_v1_usd": 0.0016,
+ "cost_v2_usd": 0.0021,
+ "cost_ratio_mean": 1.327,
+ "quality_v1_mean": 20.1667,
+ "quality_v2_mean": 23.0,
+ "quality_delta_mean": 2.8333,
+ "gates": [
+  "PASS (non-inferior)",
+  "PASS (non-inferior)",
+  "PASS (non-inferior)"
+ ],
+ "judge_winners": [
+  [
+   "A",
+   "B"
+  ],
+  [
+   "B",
+   "B"
+  ],
+  [
+   "tie",
+   "B"
+  ]
+ ],
+ "scores_v1_mean": {
+  "coverage": 4.3333,
+  "actionability": 3.0,
+  "argument": 4.3333,
+  "risk": 4.6667,
+  "structure": 3.8333
+ },
+ "scores_v2_mean": {
+  "coverage": 4.6667,
+  "actionability": 5.0,
+  "argument": 4.3333,
+  "risk": 4.0,
+  "structure": 5.0
+ },
+ "engine_token_total_v2_mean": 5504.3333,
+ "total_spend_usd": 0.013092,
+ "verdict": "PASS (non-inferior)"
+}
