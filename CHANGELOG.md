@@ -6,6 +6,11 @@ this project adheres to Semantic Versioning.
 ## [Unreleased]
 
 ### Added
+- **Built-in persona library (optional)**: 320 compact role cards across 21 departments, imported
+  deterministically from [agency-agents-zh](https://github.com/jnMetaCode/agency-agents-zh) (MIT, see
+  `NOTICE`). A task's `persona_id` matching a card id now renders a ~240-token persona hint
+  (name / role / worldview / strengths / style) instead of the bare id; unknown ids keep the old
+  behaviour. Refresh with `python scripts/import_agency_personas.py --agency-root <checkout>`.
 - **A/B non-inferiority harness** (`benchmarks/ab_gate.py`) and the first real V1-vs-V2 evidence
   (`benchmarks/AB_V1_VS_V2.md`, raw runs under `benchmarks/evidence/`): on one topic × 3 repeats the
   engine was 1.33× more expensive and +2.83/25 on a blind, order-swapped judge — the standing

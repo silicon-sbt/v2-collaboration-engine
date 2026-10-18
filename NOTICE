@@ -1,0 +1,27 @@
+# Third-party notices
+
+This project ships one data artifact derived from a third-party MIT-licensed library.
+
+## agency-agents-zh
+
+- Source: https://github.com/jnMetaCode/agency-agents-zh
+- Upstream: https://github.com/msitarzewski/agency-agents
+- License: MIT
+- Copyright (c) 2025 Michael Sitarzewski (original English version)
+- Copyright (c) 2026 jnMetaCode (Chinese translation and localization)
+
+`collab/data/personas.json` contains **compact persona cards** extracted deterministically
+from those role definitions (name / role / worldview / strengths / style, ~240 tokens each).
+The upstream long-form role files are **not** vendored in this repository. The license text
+of the upstream project is the MIT License; the cards remain available under MIT with the
+copyright notices above retained.
+
+To refresh the library:
+
+```bash
+git clone --depth 1 https://github.com/jnMetaCode/agency-agents-zh.git
+python scripts/import_agency_personas.py --agency-root ./agency-agents-zh
+```
+
+The library is optional: delete `collab/data/personas.json` and persona hints fall back to
+the bare persona id.

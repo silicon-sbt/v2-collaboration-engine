@@ -37,6 +37,11 @@ collab = "collab.cli:main"
 [tool.setuptools.packages.find]
 include = ["collab*"]
 
+# The built-in persona library is data, so it has to be declared explicitly or the
+# wheel would ship without it (persona hints would silently degrade to bare ids).
+[tool.setuptools.package-data]
+collab = ["data/*.json"]
+
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]

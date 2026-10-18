@@ -32,6 +32,9 @@ Run a collaboration and the report gives you:
 - **Honest memory**: no strong match → no injection, no fabrication; hits carry real source, key facts have anchors.
 - **Crash recovery**: a dead run is normalized to failed, not stuck "running".
 - **Light / independent audit**: simple tasks can skip the manager re-read; the auditor can use a different model to avoid self-review.
+- **Built-in persona library (optional)**: a `persona_id` may be a card id from the bundled library
+  (320 roles / 21 departments, from agency-agents-zh, MIT — see `NOTICE`), which renders a ~240-token
+  persona hint; unknown ids keep the old behaviour of being used as a plain label.
 
 ## How it differs
 
@@ -81,7 +84,7 @@ python -m collab report <run_id>
 
 ## Reliability
 
-- 164 tests incl. adversarial verification (inject an error → the system exposes & corrects it).
+- 170 tests incl. adversarial verification (inject an error → the system exposes & corrects it).
 - ~91% coverage; CI runs on **Python 3.10 / 3.11 / 3.12** daily + on push, plus a packaging
   smoke job (build → twine check → install the wheel in a clean venv → run `collab demo`).
 - **A/B evidence** against the roundtable baseline (cost/quality, incl. a measured cost-accounting
@@ -95,3 +98,18 @@ python -m collab report <run_id>
 ## License
 
 MIT License (see `LICENSE`).
+
+## Acknowledgements
+
+- The original [`agent_roundtable`](https://github.com/Random-Walk2026/agent_roundtable) project (Random-Walk2026) — the idea of an audited multi-agent roundtable is where this engine started.
+- [`agency-agents-zh`](https://github.com/jnMetaCode/agency-agents-zh) (jnMetaCode) and the upstream
+  [`agency-agents`](https://github.com/msitarzewski/agency-agents) (Michael Sitarzewski): the 320 role cards
+  in the built-in library are deterministically extracted from their MIT-licensed role definitions — see `NOTICE`.
+
+## Support this project
+
+If this saved you time, you can buy me a coffee:
+
+<p align="center">
+  <img src="assets/donation-qr.jpg" alt="WeChat tip QR" width="240">
+</p>

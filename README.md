@@ -32,6 +32,8 @@
 - **记忆诚实**：没有强命中就不注入、绝不编造；命中的片段带真实来源，关键事实有锚点。
 - **崩溃恢复**：跑挂的任务归一为失败，不会一直「运行中」。
 - **轻量 / 独立裁决**：简单任务可跳过经理复核；审查者可用不同模型，避免“自己写自己审”。
+- **内置角色库（可选）**：`persona_id` 可直接写内置角色卡 id（320 个角色 / 21 个部门，来自 agency-agents-zh，MIT，见 `NOTICE`），
+  自动渲染成约 240 token 的人格提示；写不认识的 id 则和以前一样，原样当标签用。
 
 ## 和同类框架的差异
 
@@ -161,6 +163,7 @@ python -m collab cost <run_id>
 - `collab/runstore.py` `collab/runner.py`：持久化 + 崩溃恢复 + 心跳。
 - `collab/cli.py`：`python -m collab` 工作流 CLI。
 - `collab/tokenize.py` `persona.py` `llm.py`：自包含 tokenizer / persona 提示 / LLM client。
+- `collab/data/personas.json`：内置角色库（可选，确定性编译自 agency-agents-zh，见 `NOTICE`；删除后 persona 提示退化为原始 id）。
 
 ## 架构图 / 流程图
 
@@ -184,3 +187,12 @@ MIT License（见 `LICENSE`）。
 
 - 感谢原始项目 [`agent_roundtable`](https://github.com/Random-Walk2026/agent_roundtable)（Random-Walk2026）：多 Agent 圆桌与协作审计的思路，是本引擎的重要起点。
 - 感谢 **ClaimCheck（CatNebulaaaa）**：用于本项目的开源完整性核查。
+- 感谢 [`agency-agents-zh`](https://github.com/jnMetaCode/agency-agents-zh)（jnMetaCode）与上游 [`agency-agents`](https://github.com/msitarzewski/agency-agents)（Michael Sitarzewski）：内置角色库的 320 张角色卡由其 MIT 授权的中文角色定义确定性提取而来，详见 `NOTICE`。
+
+## 支持这个项目
+
+如果这些工作帮你省了时间，欢迎请我喝杯咖啡 ☕
+
+<p align="center">
+  <img src="assets/donation-qr.jpg" alt="微信赞赏码" width="240">
+</p>
