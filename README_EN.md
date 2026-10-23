@@ -82,6 +82,16 @@ python -m collab report <run_id>
 [{"id":"t1","persona_id":"computing","input":"Evaluate cost vs benefit","expected_output":"Give a plan"}]
 ```
 
+`persona_id` may be any label, or the id of a card in the **built-in role library** (320 roles /
+21 departments, data in `collab/data/personas.json`). When it matches a card, the task prompt
+carries that role's name / role / worldview / strengths / style (~240 tokens instead of the
+upstream multi-thousand-token long-form role); an unknown id is used as a plain label, exactly
+as before.
+
+```bash
+python -c "from collab.persona import list_personas; print([c['id'] for c in list_personas('engineering')][:20])"
+```
+
 ## Reliability
 
 - 170 tests incl. adversarial verification (inject an error → the system exposes & corrects it).

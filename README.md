@@ -131,6 +131,15 @@ python -m collab cost <run_id>
 [{"id":"t1","persona_id":"computing","input":"评估成本与收益","expected_output":"给出方案"}]
 ```
 
+`persona_id` 可以随便写，也可以是**内置角色库**里的角色卡 id（320 个角色 / 21 个部门，数据在 `collab/data/personas.json`）。
+命中角色卡时，任务提示会自动带上该角色的名称 / 角色 / 世界观 / 擅长 / 风格（约 240 token，而不是原角色那篇几千 token 的长文）；
+写不认识的 id 就按原样当标签用，行为跟以前一样。
+
+```bash
+# 看看有哪些角色（按部门过滤；不传参数就是全部）
+python -c "from collab.persona import list_personas; print([c['id'] for c in list_personas('engineering')][:20])"
+```
+
 ## 命令一览
 
 | 命令 | 说明 |
@@ -143,7 +152,7 @@ python -m collab cost <run_id>
 
 ## 可靠性
 
-- **测试**：164 个用例（含 demo/CLI/记忆/动议/恢复）+ 对抗性核验（制造错误→系统揭出/修正）。
+- **测试**：170 个用例（含 demo/CLI/记忆/动议/恢复/角色库）+ 对抗性核验（制造错误→系统揭出/修正）。
 - **覆盖率约 91%**，CI 每天定时 + push，跑 **Python 3.10 / 3.11 / 3.12** 三种版本；另有打包冒烟作业（build → twine check → 干净环境装 wheel 跑 `collab demo`）。
 - **A/B 实测**：与圆桌基线（入口 A）的成本/质量对比证据，含已测出的成本口径缺口：[`benchmarks/AB_V1_VS_V2.md`](benchmarks/AB_V1_VS_V2.md)。
 - **自包含**：除标准库外仅依赖 `langgraph`、`requests`，不依赖其他内部模块。
@@ -164,6 +173,7 @@ python -m collab cost <run_id>
 - `collab/cli.py`：`python -m collab` 工作流 CLI。
 - `collab/tokenize.py` `persona.py` `llm.py`：自包含 tokenizer / persona 提示 / LLM client。
 - `collab/data/personas.json`：内置角色库（可选，确定性编译自 agency-agents-zh，见 `NOTICE`；删除后 persona 提示退化为原始 id）。
+- `scripts/import_agency_personas.py`：刷新角色库（上游更新后重跑）；`benchmarks/`：非劣闸门运行器与 A/B 实测证据。
 
 ## 架构图 / 流程图
 
