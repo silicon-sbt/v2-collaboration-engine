@@ -205,7 +205,8 @@ def test_search_min_score_gate_no_strong_hit_no_injection(tmp_path: Path):
 def test_search_candidate_limit_bounds_scan(tmp_path: Path):
     from datetime import datetime, timedelta, timezone
     store = MemoryStore(tmp_path / "mem.db")
-    base = datetime(2026, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+    # Recency affects retrieval scores, so keep these fixtures fresh.
+    base = datetime.now(timezone.utc)
     store.add(MemoryEntry(agent_id="computing", content="符号计算在推理中很关键", tags=["推理"], updated_at=base))
     store.add(MemoryEntry(agent_id="computing", content="今天吃了苹果", tags=["饮食"], updated_at=base + timedelta(seconds=1)))
     hits = store.search("computing", "符号计算 推理")
